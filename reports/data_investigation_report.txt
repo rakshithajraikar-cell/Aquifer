@@ -1,0 +1,33 @@
+
+GROUNDWATER DATA INVESTIGATION REPORT
+
+Dataset: Karnataka Groundwater 1971-2020
+Station Code: 70202
+Location: Chitradurga, Karnataka
+
+Total Records: 588
+Start Date: 1972-01-01
+End Date: 2020-12-01
+
+DATA QUALITY CHECK
+Missing Values: 0
+Duplicate Dates: 0
+
+READING 15.0 INVESTIGATION
+Total Occurrences: 23
+
+CONSECUTIVE REPEATED READINGS
+ reading      start        end  months
+     7.7 1972-01-01 1972-06-01       6
+    15.0 1989-12-01 1991-07-01      20
+
+IMPORTANT FINDING
+The reading 15.0 remained unchanged for
+20 consecutive months from December 1989
+to July 1991.
+
+The original readings are preserved.
+No values have been modified or removed.
+
+GROUNDWATER MEASUREMENT UNIT: UNVERIFIED
+Awaiting official clarification from NWIC.
