@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aquifer Groundwater Forecasting & Decision Support</title>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<style>
+  :root { --bg:#f4f7fb; --card:#fff; --ink:#1d2733; --muted:#6b7785; --accent:#2f6fb3;
+          --low:#2e9e5b; --mod:#d9a520; --high:#e0702b; --crit:#c8323c; --line:#e3e9f1; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--ink); }
+  header { background:linear-gradient(120deg,#1f4f86,#2f6fb3); color:#fff; padding:18px 24px; }
+  header h1 { margin:0; font-size:20px; font-weight:600; }
+  header p { margin:4px 0 0; opacity:.85; font-size:13px; }
+  nav { display:flex; flex-wrap:wrap; gap:6px; padding:10px 16px; background:#fff; border-bottom:1px solid var(--line); position:sticky; top:0; z-index:5; }
+  nav button { border:1px solid var(--line); background:#fff; padding:7px 12px; border-radius:20px; cursor:pointer; font-size:13px; color:var(--ink); }
+  nav button.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+  main { padding:16px; max-width:1300px; margin:0 auto; }
+  section { display:none; } section.active { display:block; }
+  .grid { display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; margin-bottom:14px; box-shadow:0 1px 2px rgba(0,0,0,.03); }
+  .kpi .label { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; }
+  .kpi .value { font-size:26px; font-weight:650; margin-top:6px; }
+  .kpi .sub { font-size:12px; color:var(--muted); margin-top:4px; }
+  .pill { display:inline-block; padding:3px 10px; border-radius:12px; color:#fff; font-size:12px; font-weight:600; }
+  .Low { background:var(--low); } .Moderate { background:var(--mod); } .High { background:var(--high); } .Critical { background:var(--crit); }
+  .notice { background:#fff8e6; border:1px solid #f1d98a; border-radius:10px; padding:10px 14px; font-size:13px; margin-bottom:14px; }
+  .notice.info { background:#eef5fc; border-color:#c7dcf1; }
+  h2 { font-size:17px; margin:4px 0 10px; }
+  h3 { font-size:14px; margin:14px 0 8px; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:.04em; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th, td { text-align:left; padding:7px 8px; border-bottom:1px solid var(--line); }
+  th { color:var(--muted); font-weight:600; font-size:12px; }
+  td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; }
+  .best { background:#eaf6ee; font-weight:600; }
+  .rec { border-left:4px solid var(--accent); padding:8px 12px; margin-bottom:10px; background:#fafcff; border-radius:6px; }
+  .rec small { color:var(--muted); display:block; margin-top:4px; }
+  .alert { border-left:4px solid var(--crit); padding:8px 12px; margin-bottom:10px; background:#fff; border-radius:6px; }
+  .alert.high { border-color:var(--high); } .alert.medium { border-color:var(--mod); } .alert.not_evaluated { border-color:#b8c2cf; }
+  .plot { width:100%; min-height:380px; }
+  .controls { display:flex; flex-wrap:wrap; gap:14px; align-items:end; margin-bottom:10px; font-size:13px; }
+  .controls label { display:flex; flex-direction:column; gap:4px; color:var(--muted); }
+  input[type=number] { width:110px; padding:6px; border:1px solid var(--line); border-radius:6px; }
+  .muted { color:var(--muted); font-size:13px; }
+  @media (max-width:640px){ .kpi .value{font-size:22px} }
+</style>
+</head>
+<body>
+<header>
+  <h1>AI-Powered Aquifer Groundwater Level Forecasting, Risk Assessment and Smart Water Management</h1>
+  <p id="stationLine">Loading station…</p>
+</header>
+<nav id="tabs">
+  <button data-tab="overview" class="active">Overview</button>
+  <button data-tab="forecast">Forecast</button>
+  <button data-tab="risk">Risk &amp; Alerts</button>
+  <button data-tab="whatif">What-if Simulator</button>
+  <button data-tab="xai">Explainable AI</button>
+  <button data-tab="recs">Recommendations</button>
+  <button data-tab="models">Model Comparison</button>
+  <button data-tab="map">Map</button>
+</nav>
+<main>
+  <div class="notice" id="globalNotice"></div>
+
+  <!-- OVERVIEW -->
+  <section id="overview" class="active">
+    <div class="grid" id="kpis"></div>
+    <div class="card"><h2>Observed groundwater level and forecast</h2>
+      <div id="overviewPlot" class="plot"></div></div>
+    <div class="grid">
+      <div class="card"><h2>Current trend</h2><div id="trendText" class="muted"></div></div>
+      <div class="card"><h2>Data quality</h2><div id="dqText" class="muted"></div></div>
+    </div>
+  </section>
+
+  <!-- FORECAST -->
+  <section id="forecast">
+    <div class="card"><h2>Forecast by horizon</h2>
+      <p class="muted">Monthly data: the nearest horizons are 1, 3, 6 and 12 months. 7-day and 30-day forecasts are not possible from monthly readings. Bands are approximate 80% intervals from test-period errors at each horizon.</p>
+      <table id="horizonTable"></table></div>
+    <div class="card"><h2>Forecast with uncertainty band</h2><div id="forecastPlot" class="plot"></div></div>
+  </section>
+
+  <!-- RISK -->
+  <section id="risk">
+    <div class="grid">
+      <div class="card kpi"><div class="label">Groundwater Risk Index (now)</div><div class="value" id="riskNow">–</div><div class="sub" id="riskClass"></div></div>
+      <div class="card kpi"><div class="label">Mean risk over forecast</div><div class="value" id="riskFc">–</div><div class="sub">Same index, applied to forecast months</div></div>
+      <div class="card kpi"><div class="label">Critical depth threshold</div><div class="value" id="critDepth">–</div><div class="sub" id="critSub"></div></div>
+      <div class="card kpi"><div class="label">Recharge (last year vs median)</div><div class="value" id="rechargeVal">–</div><div class="sub" id="rechargeSub"></div></div>
+    </div>
+    <div class="card"><h2>Early-warning alerts</h2><div id="alerts"></div></div>
+    <div class="card"><h2>Risk index over time</h2><div id="riskPlot" class="plot"></div>
+      <p class="muted">Components: level percentile for the calendar month, 12-month decline, seasonal deviation, recharge. Rainfall and extraction components are not computed because those series are not in the dataset.</p></div>
+    <div class="card"><h2>Recovery after the monsoon</h2><div id="recoveryText" class="muted"></div>
+      <div id="recoveryPlot" class="plot" style="min-height:300px"></div></div>
+    <div class="card"><h2>Anomalies</h2><div id="anomalyTable"></div></div>
+  </section>
+
+  <!-- WHAT-IF -->
+  <section id="whatif">
+    <div class="notice">These scenarios are <strong>assumption-driven</strong>. The dataset has no groundwater extraction series, so the effect of reducing extraction is calculated from the observed long-term deepening multiplied by the share you set below. They are not learned predictions.</div>
+    <div class="card">
+      <div class="controls">
+        <label>Share of observed deepening attributed to extraction (0–1)
+          <input type="number" id="shareInput" min="0" max="1" step="0.05" value="0.5"></label>
+        <label>Reduction scenarios (%)
+          <input type="text" id="cutsInput" value="0,10,20,30" style="width:180px;padding:6px;border:1px solid var(--line);border-radius:6px"></label>
+        <button id="runWhatIf" style="padding:8px 14px;border:0;border-radius:6px;background:var(--accent);color:#fff;cursor:pointer">Run simulation</button>
+      </div>
+      <div id="whatifPlot" class="plot"></div>
+    </div>
+    <div class="card"><h2>Scenario results at 12 months</h2><div id="whatifTable"></div></div>
+  </section>
+
+  <!-- XAI -->
+  <section id="xai">
+    <div class="card"><h2>Why the model predicts what it does</h2><div id="xaiText" class="rec"></div></div>
+    <div class="grid">
+      <div class="card"><h2>Mean |SHAP| by feature</h2><div id="shapPlot" class="plot" style="min-height:340px"></div></div>
+      <div class="card"><h2>Permutation importance (test period)</h2><div id="permPlot" class="plot" style="min-height:340px"></div></div>
+    </div>
+    <div class="card"><h2>Partial dependence</h2><div id="pdPlot" class="plot"></div>
+      <p class="muted">Average predicted value as one feature varies, with others held at their data values.</p></div>
+    <p class="muted">Features are past levels, changes and calendar position only. Rainfall, temperature and extraction are not in the dataset, so they cannot appear here.</p>
+  </section>
+
+  <!-- RECS -->
+  <section id="recs">
+    <div class="card"><h2>Recommendations</h2><div id="recList"></div>
+      <p class="muted">Each recommendation quotes the model output it depends on. Actions are advisory and need local hydrogeological review.</p></div>
+  </section>
+
+  <!-- MODELS -->
+  <section id="models">
+    <div class="notice info" id="selRule"></div>
+    <div class="card"><h2>Comparison on the held-out test period</h2><div id="compTable" style="overflow-x:auto"></div>
+      <p class="muted">Models were tuned and ranked on the validation block. The test block was used only for this table. "1-step" uses real previous values; "multi-horizon" uses the model's own forecasts for 1–12 months, which is the realistic setting.</p></div>
+    <div class="card"><h2>MAE at each horizon (test)</h2><div id="horizonErrPlot" class="plot"></div></div>
+    <div class="card"><h2>Ablation study (XGBoost feature groups)</h2><div id="ablationTable" style="overflow-x:auto"></div>
+      <p class="muted">Rainfall, temperature and extraction ablations are not run because those series are not in the dataset.</p></div>
+  </section>
+
+  <!-- MAP -->
+  <section id="map">
+    <div class="card"><h2>Monitoring wells: latest reading</h2>
+      <p class="muted">Each well is coloured by where its latest reading ranks among all wells (deeper = warmer colour, if the level is depth). Full risk analysis is available only for the modelled station.</p>
+      <div id="mapPlot" class="plot" style="min-height:520px"></div></div>
+  </section>
+</main>
+
+<script>
+const API = (p) => fetch(p).then(r => { if (!r.ok) throw new Error(p + " " + r.status); return r.json(); });
+const fmt = (v, d=2) => (v === null || v === undefined || isNaN(v)) ? "–" : Number(v).toFixed(d);
+const cls = (c) => (c || "").split(" ")[0];
+const plotCfg = { responsive: true, displayModeBar: false };
+const LAYOUT = { margin:{l:55,r:20,t:30,b:45}, paper_bgcolor:"#fff", plot_bgcolor:"#fff", font:{family:"system-ui", size:12}, legend:{orientation:"h", y:-0.2} };
+
+// Tabs
+document.querySelectorAll("#tabs button").forEach(b => b.onclick = () => {
+  document.querySelectorAll("#tabs button").forEach(x => x.classList.remove("active"));
+  document.querySelectorAll("main section").forEach(x => x.classList.remove("active"));
+  b.classList.add("active");
+  document.getElementById(b.dataset.tab).classList.add("active");
+  window.dispatchEvent(new Event("resize"));
+});
+
+function note(msg, cls="") { const n = document.getElementById("globalNotice"); n.className = "notice " + cls; n.innerHTML = msg; }
+
+let hist = [], fc = null, riskTL = [], summary = null;
+
+async function init() {
+  try {
+    summary = await API("/api/summary");
+    const st = summary.station;
+    document.getElementById("stationLine").textContent =
+      `Station ${st.station} · ${st.block}, ${st.district} · ${summary.trained_on.test[0]}–${summary.trained_on.test[1]} test period · ${summary.stations_count} monitoring wells in the dataset`;
+    note("<strong>Groundwater unit is unverified.</strong> The code treats values as depth to water in metres (higher = deeper). Rainfall, temperature, extraction and evapotranspiration are not in the dataset, so the models use groundwater history only. Forecasts are monthly.", "");
+    hist = await API("/api/history");
+    fc = await API("/api/forecast");
+    riskTL = (await API("/api/risk")).timeline;
+    await Promise.all([renderOverview(), renderForecast(), renderRisk(), renderWhatIf(), renderXAI(), renderRecs(), renderModels(), renderMap()]);
+  } catch (e) {
+    note("Could not load the API. Run <code>python run_pipeline.py</code> then <code>uvicorn api:app</code>. " + e.message, "");
+  }
+}
+
+function kpi(label, value, sub, extra="") {
+  return `<div class="card kpi"><div class="label">${label}</div><div class="value">${value}</div><div class="sub">${sub}</div>${extra}</div>`;
+}
+
+async function renderOverview() {
+  const h = summary.health, r = summary.risk.current, last = hist[hist.length-1];
+  const fcLast = fc.months[fc.months.length-1];
+  document.getElementById("kpis").innerHTML =
+    kpi("Current level (m)", fmt(last.level), `Observed, ${last.month.slice(0,7)}`) +
+    kpi("Forecast in 12 months (m)", fmt(fcLast.forecast_level), `${fcLast.month} · band ${fmt(fcLast.band_low)} – ${fmt(fcLast.band_high)}`) +
+    kpi("Groundwater Risk Index", fmt(r.risk_index,1), r.risk_class, `<span class="pill ${cls(r.risk_class)}">${r.risk_class}</span>`) +
+    kpi("Aquifer Health Score", `${fmt(h.score,1)}/100`, "Project-developed indicator, not an official measurement") +
+    kpi("Long-term trend (m/decade)", fmt(summary.trend_m_per_decade,2), "Positive = water table deepening") +
+    kpi("Best model", summary.model_selection.best_model, "Chosen on validation data");
+  const H = hist.slice(-120);
+  const an = await API("/api/anomalies");
+  const shown = new Set(H.map(h => h.month));
+  const flagged = an.filter(a => shown.has(a.month));
+  const traces = [
+    { x: H.map(d=>d.month), y: H.map(d=>d.level), name:"Observed (last 10 yrs)", line:{color:"#1f4f86"} },
+    { x: fc.months.map(d=>d.month), y: fc.months.map(d=>d.forecast_level), name:"Forecast", line:{color:"#d1495b", dash:"dash"} },
+    { x: flagged.map(a=>a.month), y: flagged.map(a=>a.level), mode:"markers", name:"Anomaly", marker:{color:"red", size:7} },
+  ];
+  Plotly.newPlot("overviewPlot", traces, {...LAYOUT, yaxis:{autorange:"reversed", title:"Depth (m) · higher is deeper"}}, plotCfg);
+  document.getElementById("trendText").innerHTML = `Observed deepening trend: <strong>${fmt(summary.trend_m_per_decade,2)} m per decade</strong>. Last 12 months: forecast change ${fmt(fcLast.forecast_level - last.level,2)} m (model-based, not a rainfall-driven estimate).`;
+  const dq = summary.data_quality;
+  document.getElementById("dqText").innerHTML = `${dq.months} months · ${dq.missing_months_interpolated} missing months filled by linear interpolation (flagged) · ${dq.months_with_several_readings} months averaged from several readings · ${dq.repeated_value_months} repeated-value months · ${dq.anomaly_months_flagged} months flagged as anomalous.`;
+}
+
+async function renderForecast() {
+  const rows = fc.months;
+  const pick = [1,3,6,12];
+  let html = `<tr><th>Horizon</th><th>Month</th><th class="num">Forecast (m)</th><th class="num">Approx. 80% band</th></tr>`;
+  for (const p of pick) { const d = rows[p-1]; html += `<tr><td>${p} month${p>1?"s":""}</td><td>${d.month}</td><td class="num">${fmt(d.forecast_level)}</td><td class="num">${fmt(d.band_low)} – ${fmt(d.band_high)}</td></tr>`; }
+  html += `<tr class="muted"><td>7 days, 30 days</td><td colspan="3">Not available: monthly data</td></tr>`;
+  document.getElementById("horizonTable").innerHTML = html;
+  const H = hist.slice(-48);
+  Plotly.newPlot("forecastPlot", [
+    { x:H.map(d=>d.month), y:H.map(d=>d.level), name:"Observed", line:{color:"#1f4f86"} },
+    { x:rows.map(d=>d.month), y:rows.map(d=>d.band_high), line:{width:0}, showlegend:false, hoverinfo:"skip" },
+    { x:rows.map(d=>d.month), y:rows.map(d=>d.band_low), fill:"tonexty", fillcolor:"rgba(209,73,91,0.15)", line:{width:0}, name:"Approx. 80% band" },
+    { x:rows.map(d=>d.month), y:rows.map(d=>d.forecast_level), name:"Forecast", line:{color:"#d1495b", width:2.5} },
+  ], {...LAYOUT, yaxis:{autorange:"reversed", title:"Depth (m)"}}, plotCfg);
+}
+
+async function renderRisk() {
+  const r = await API("/api/risk");
+  const cur = r.current;
+  document.getElementById("riskNow").textContent = fmt(cur.risk_index,1);
+  document.getElementById("riskClass").innerHTML = `<span class="pill ${cls(cur.risk_class)}">${cur.risk_class}</span> · ${cur.month}`;
+  document.getElementById("riskFc").textContent = fmt(r.forecast_mean_risk_index,1);
+  document.getElementById("critDepth").textContent = fmt(r.critical_depth_m) + " m";
+  document.getElementById("critSub").textContent = "90th percentile of the historical record";
+  const rec = summary.health ? (await API("/api/recovery")).summary : {};
+  document.getElementById("rechargeVal").textContent = rec.latest_recovery_ratio != null ? fmt(rec.latest_recovery_ratio,2) + "×" : "–";
+  document.getElementById("rechargeSub").textContent = "Last full year's seasonal rise vs median";
+
+  const alerts = await API("/api/alerts");
+  document.getElementById("alerts").innerHTML = alerts.map(a =>
+    `<div class="alert ${a.severity}"><strong>${a.type.replace(/_/g," ")}</strong> · ${a.severity}<br>${a.message}${a.window_start ? `<br><small class="muted">Window: ${a.window_start} to ${a.window_end}</small>` : ""}</div>`
+  ).join("") || `<p class="muted">No alerts.</p>`;
+
+  const hist2 = riskTL.filter(d => d.kind === "observed"), f2 = riskTL.filter(d => d.kind === "forecast");
+  const edges = r.class_edges;
+  Plotly.newPlot("riskPlot", [
+    { x: riskTL.map(d=>d.month), y: riskTL.map(d=>d.risk_index), name:"Risk Index", line:{color:"#2f6fb3"} },
+  ], {...LAYOUT, yaxis:{range:[0,100], title:"Risk Index (0–100)"}, shapes:[
+      ...edges.map(e => ({type:"line", xref:"paper", x0:0, x1:1, y0:e, y1:e, line:{color:"#999", dash:"dot"}})),
+      ...(f2.length ? [{type:"line", x0:f2[0].month, x1:f2[0].month, yref:"paper", y0:0, y1:1, line:{color:"#333", dash:"dash"}}] : []),
+  ], annotations: f2.length ? [{x:f2[0].month, y:100, yref:"y", text:"forecast →", showarrow:false, xanchor:"left"}] : []}, plotCfg);
+
+  const recov = (await API("/api/recovery"));
+  const s = recov.summary;
+  document.getElementById("recoveryText").innerHTML = `Across ${s.years_analysed} years: median seasonal rise <strong>${fmt(s.median_rise_m)} m</strong>, reached in a median of <strong>${fmt(s.median_response_months,0)} months</strong> from the pre-monsoon low. Water level returned to its pre-monsoon depth after a median of <strong>${fmt(s.median_recession_months,0)} months</strong>. In ${fmt(100*s.share_of_years_with_recovery,0)}% of years the level recovered.`;
+  const ev = recov.events;
+  Plotly.newPlot("recoveryPlot", [{ x: ev.map(e=>e.year), y: ev.map(e=>e.rise), type:"bar", name:"Seasonal rise (m)", marker:{color:"#2f6fb3"} }],
+    {...LAYOUT, yaxis:{title:"Rise (m)"}, xaxis:{title:"Year"}}, plotCfg);
+
+  const an = await API("/api/anomalies");
+  document.getElementById("anomalyTable").innerHTML = an.length ? `<table><tr><th>Month</th><th class="num">Level</th><th>Method</th><th>Reason</th></tr>` +
+    an.slice(-25).reverse().map(a => `<tr><td>${a.month.slice(0,7)}</td><td class="num">${fmt(a.level)}</td><td>${a.methods}</td><td>${a.reason}</td></tr>`).join("") + `</table>` +
+    (an.length > 25 ? `<p class="muted">Showing latest 25 of ${an.length}.</p>` : "") : `<p class="muted">No anomalies flagged.</p>`;
+}
+
+async function renderWhatIf() {
+  await runWhatIf();
+}
+async function runWhatIf() {
+  const share = document.getElementById("shareInput").value;
+  const cuts = document.getElementById("cutsInput").value;
+  const r = await API(`/api/whatif?extraction_share=${encodeURIComponent(share)}&reduction_pct=${encodeURIComponent(cuts)}`);
+  const traces = [{ x:r.months, y:r.baseline_forecast, name:"Baseline forecast", line:{color:"#666", dash:"dot"} }];
+  const colors = ["#1f4f86","#2e9e5b","#d9a520","#c8323c","#8e44ad"];
+  let i = 0;
+  for (const [label, vals] of Object.entries(r.curves)) traces.push({ x:r.months, y:vals, name:label, line:{color:colors[i++ % colors.length]} });
+  Plotly.newPlot("whatifPlot", traces, {...LAYOUT, yaxis:{autorange:"reversed", title:"Depth (m)"},
+    title:{text:"Scenario curves (assumption-driven)", font:{size:13}}}, plotCfg);
+  const last = r.curves, rows = Object.entries(last);
+  const base = r.baseline_forecast[r.baseline_forecast.length-1];
+  document.getElementById("whatifTable").innerHTML = `<table><tr><th>Scenario</th><th class="num">Level at 12 months (m)</th><th class="num">Change vs current extraction (m)</th></tr>` +
+    rows.map(([l, v]) => `<tr><td>${l}</td><td class="num">${fmt(v[v.length-1])}</td><td class="num">${fmt(v[v.length-1]-base)}</td></tr>`).join("") + `</table>`;
+}
+document.getElementById("runWhatIf").onclick = () => runWhatIf().catch(e => note("What-if error: " + e.message));
+
+async function renderXAI() {
+  const e = await API("/api/explain");
+  document.getElementById("xaiText").innerHTML = `<strong>${e.explained_month}:</strong> ${e.explanation}`;
+  const shap = Object.entries(e.mean_abs_shap).sort((a,b)=>a[1]-b[1]);
+  Plotly.newPlot("shapPlot", [{ type:"bar", orientation:"h", x: shap.map(d=>d[1]), y: shap.map(d=>d[0]), marker:{color:"#2f6fb3"} }],
+    {...LAYOUT, xaxis:{title:"Mean |SHAP| (m)"}, margin:{l:150,r:20,t:20,b:40}}, plotCfg);
+  const perm = Object.entries(e.permutation_importance_test).sort((a,b)=>a[1]-b[1]);
+  Plotly.newPlot("permPlot", [{ type:"bar", orientation:"h", x: perm.map(d=>d[1]), y: perm.map(d=>d[0]), marker:{color:"#d1495b"} }],
+    {...LAYOUT, xaxis:{title:"Increase in MAE when shuffled (m)"}, margin:{l:150,r:20,t:20,b:40}}, plotCfg);
+  const feats = Object.keys(e.partial_dependence);
+  const traces = feats.map((f,i) => ({ x:e.partial_dependence[f].grid, y:e.partial_dependence[f].average_prediction, name:f, mode:"lines" }));
+  Plotly.newPlot("pdPlot", traces, {...LAYOUT, xaxis:{title:"Feature value (m or change in m)"}, yaxis:{title:"Average prediction (m)"}}, plotCfg);
+}
+
+async function renderRecs() {
+  const recs = await API("/api/recommendations");
+  document.getElementById("recList").innerHTML = recs.map(r =>
+    `<div class="rec"><strong>${r.action}</strong><small>${r.category.replace(/_/g," ")} · Evidence: ${r.evidence}</small></div>`).join("");
+}
+
+async function renderModels() {
+  const m = await API("/api/models");
+  document.getElementById("selRule").innerHTML = `<strong>Selection rule:</strong> ${m.selection_rule}. Best model: <strong>${m.best_model}</strong> (${m.best_configuration}). Test-period ranking by multi-horizon MAE: ${m.test_ranking_by_multi_horizon_MAE.join(" › ")}.`;
+  const cols = ["Rank (validation)","Model","Family","Test MAE (1-step)","Test RMSE (1-step)","Test MAPE % (1-step)","Test R2 (1-step)","Test MAE (multi-horizon)","Test RMSE (multi-horizon)","Test R2 (multi-horizon)","MAE h=1","MAE h=3","MAE h=6","MAE h=12","Training time (s)"];
+  let t = `<table><tr>${cols.map(c=>`<th class="${/Model|Family/.test(c)?"":"num"}">${c}</th>`).join("")}</tr>`;
+  for (const row of m.comparison) {
+    t += `<tr class="${row["Rank (validation)"]===1?"best":""}">` + cols.map(c => `<td class="${/Model|Family/.test(c)?"":"num"}">${typeof row[c]==="number" ? fmt(row[c], c.includes("Time")?2:3) : row[c]}</td>`).join("") + `</tr>`;
+  }
+  document.getElementById("compTable").innerHTML = t + `</table>`;
+  const traces = m.comparison.map(r => ({ x:[1,3,6,12], y:[r["MAE h=1"], r["MAE h=3"], r["MAE h=6"], r["MAE h=12"]], mode:"lines+markers", name:r.Model }));
+  Plotly.newPlot("horizonErrPlot", traces, {...LAYOUT, xaxis:{title:"Horizon (months)"}, yaxis:{title:"MAE on test (m)"}}, plotCfg);
+  const ab = m.ablation;
+  document.getElementById("ablationTable").innerHTML = `<table><tr><th>Feature set</th><th class="num">Features</th><th class="num">Val MAE</th><th class="num">Test MAE (multi-horizon)</th><th class="num">Test R²</th><th>Note</th></tr>` +
+    ab.map(r => `<tr><td>${r["Feature set"]}</td><td class="num">${r.Features||"–"}</td><td class="num">${fmt(r["Val MAE"],3)}</td><td class="num">${fmt(r["Test MAE (multi-horizon)"],3)}</td><td class="num">${fmt(r["Test R2 (multi-horizon)"],3)}</td><td>${r.Note||""}</td></tr>`).join("") + `</table>`;
+}
+
+async function renderMap() {
+  const st = await API("/api/stations");
+  Plotly.newPlot("mapPlot", [{
+    type:"scattermap", lat: st.map(s=>s.latitude), lon: st.map(s=>s.longitude), mode:"markers",
+    text: st.map(s=>`${s.station} · ${s.block}, ${s.district}<br>Latest: ${fmt(s.latest_level)} m (${s.latest_date})<br>Percentile among wells: ${fmt(s.level_percentile_among_stations,0)}`),
+    hoverinfo:"text", marker:{ size:7, color: st.map(s=>s.level_percentile_among_stations), colorscale:"RdYlGn", reversescale:true, colorbar:{title:"Percentile"}, cmin:0, cmax:100 }
+  }], { margin:{l:0,r:0,t:10,b:0}, map:{style:"open-street-map", center:{lat:14.5, lon:76.0}, zoom:5.6} }, plotCfg);
+}
+
+init();
+</script>
+</body>
+</html>

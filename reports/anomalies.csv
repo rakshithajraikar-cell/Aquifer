@@ -1,0 +1,78 @@
+month,level,methods,reason,is_repeated_value
+1972-01-01,7.7,repeated_value,Same reading (7.70) repeated for 6 or more consecutive months,True
+1972-02-01,7.7,repeated_value,Same reading (7.70) repeated for 6 or more consecutive months,True
+1972-03-01,7.7,repeated_value,Same reading (7.70) repeated for 6 or more consecutive months,True
+1972-04-01,7.7,repeated_value,Same reading (7.70) repeated for 6 or more consecutive months,True
+1972-05-01,7.7,repeated_value,Same reading (7.70) repeated for 6 or more consecutive months,True
+1972-06-01,7.7,repeated_value,Same reading (7.70) repeated for 6 or more consecutive months,True
+1973-02-01,14.37,statistical_jump,Sudden jump up of +5.57 in one month (robust z = 5.6),False
+1973-09-01,11.23,statistical_jump,Sudden jump down of -4.00 in one month (robust z = -4.3),False
+1977-09-01,12.13,statistical_jump,Sudden jump down of -3.90 in one month (robust z = -4.2),False
+1977-10-01,6.9,statistical_jump,Sudden jump down of -5.23 in one month (robust z = -5.6),False
+1988-09-01,6.15,statistical_jump,Sudden jump down of -3.80 in one month (robust z = -4.1),False
+1989-12-01,15.0,repeated_value;statistical_jump,Sudden jump up of +5.25 in one month (robust z = 5.3) | Same reading (15.00) repeated for 20 or more consecutive months,True
+1990-01-01,15.0,repeated_value,Same reading (15.00) repeated for 20 or more consecutive months,True
+1990-02-01,15.0,repeated_value,Same reading (15.00) repeated for 20 or more consecutive months,True
+1990-03-01,15.0,repeated_value,Same reading (15.00) repeated for 20 or more consecutive months,True
+1990-04-01,15.0,repeated_value,Same reading (15.00) repeated for 20 or more consecutive months,True
+1990-05-01,15.0,repeated_value,Same reading (15.00) repeated for 20 or more consecutive months,True
+1990-06-01,15.0,repeated_value,Same reading (15.00) repeated for 20 or more consecutive months,True
+1990-07-01,15.0,repeated_value,Same reading (15.00) repeated for 20 or more consecutive months,True
+1990-08-01,15.0,repeated_value,Same reading (15.00) repeated for 20 or more consecutive months,True
+1990-09-01,15.0,repeated_value,Same reading (15.00) repeated for 20 or more consecutive months,True
+1990-10-01,15.0,repeated_value,Same reading (15.00) repeated for 20 or more consecutive months,True
+1990-11-01,15.0,repeated_value,Same reading (15.00) repeated for 20 or more consecutive months,True
+1990-12-01,15.0,repeated_value,Same reading (15.00) repeated for 20 or more consecutive months,True
+1991-01-01,15.0,repeated_value,Same reading (15.00) repeated for 20 or more consecutive months,True
+1991-02-01,15.0,repeated_value,Same reading (15.00) repeated for 20 or more consecutive months,True
+1991-03-01,15.0,repeated_value,Same reading (15.00) repeated for 20 or more consecutive months,True
+1991-04-01,15.0,repeated_value,Same reading (15.00) repeated for 20 or more consecutive months,True
+1991-05-01,15.0,repeated_value,Same reading (15.00) repeated for 20 or more consecutive months,True
+1991-06-01,15.0,repeated_value,Same reading (15.00) repeated for 20 or more consecutive months,True
+1991-07-01,15.0,repeated_value,Same reading (15.00) repeated for 20 or more consecutive months,True
+1991-08-01,31.6,isolation_forest;statistical_jump,"Sudden jump up of +16.60 in one month (robust z = 17.1) | Unusual combination of level, monthly change and seasonal residual",False
+1992-04-01,31.65,statistical_jump,Sudden jump up of +3.85 in one month (robust z = 3.8),False
+1996-10-01,36.8,statistical_jump,Sudden jump down of -4.45 in one month (robust z = -4.8),False
+1998-10-01,36.6,statistical_jump,Sudden jump down of -7.70 in one month (robust z = -8.1),False
+1999-10-01,24.06,isolation_forest;statistical_jump,"Sudden jump down of -14.84 in one month (robust z = -15.6) | Unusual combination of level, monthly change and seasonal residual",False
+1999-12-01,27.01,statistical_jump,Sudden jump up of +4.51 in one month (robust z = 4.5),False
+2000-02-01,36.95,statistical_jump,Sudden jump up of +8.20 in one month (robust z = 8.4),False
+2000-08-01,37.8,statistical_jump,Sudden jump down of -4.25 in one month (robust z = -4.6),False
+2000-11-01,22.1,isolation_forest;statistical_jump,"Sudden jump down of -14.60 in one month (robust z = -15.3) | Unusual combination of level, monthly change and seasonal residual",False
+2001-01-01,25.9,statistical_jump,Sudden jump up of +3.80 in one month (robust z = 3.8),False
+2003-10-01,47.7,isolation_forest;statistical_jump,"Sudden jump up of +3.90 in one month (robust z = 3.9) | Unusual combination of level, monthly change and seasonal residual",False
+2003-11-01,43.1,statistical_jump,Sudden jump down of -4.60 in one month (robust z = -4.9),False
+2004-03-01,48.95,isolation_forest;statistical_jump,"Sudden jump up of +4.50 in one month (robust z = 4.5) | Unusual combination of level, monthly change and seasonal residual",False
+2004-05-01,44.1,statistical_jump,Sudden jump down of -5.10 in one month (robust z = -5.4),False
+2005-09-01,34.5,statistical_jump,Sudden jump down of -4.90 in one month (robust z = -5.2),False
+2007-09-01,33.9,statistical_jump,Sudden jump down of -4.00 in one month (robust z = -4.3),False
+2007-10-01,29.3,statistical_jump,Sudden jump down of -4.60 in one month (robust z = -4.9),False
+2008-10-01,26.0,statistical_jump,Sudden jump down of -3.30 in one month (robust z = -3.6),False
+2009-06-01,26.0,statistical_jump,Sudden jump down of -5.40 in one month (robust z = -5.8),False
+2009-09-01,17.4,statistical_jump,Sudden jump down of -4.30 in one month (robust z = -4.6),False
+2009-11-01,12.85,statistical_jump,Sudden jump down of -3.60 in one month (robust z = -3.9),False
+2012-11-01,27.9,statistical_jump,Sudden jump down of -3.90 in one month (robust z = -4.2),False
+2013-02-01,31.31,statistical_jump,Sudden jump up of +3.99 in one month (robust z = 4.0),False
+2014-09-01,25.0,isolation_forest;statistical_jump,"Sudden jump down of -7.90 in one month (robust z = -8.4) | Unusual combination of level, monthly change and seasonal residual",False
+2014-10-01,17.6,isolation_forest;statistical_jump,"Sudden jump down of -7.40 in one month (robust z = -7.8) | Unusual combination of level, monthly change and seasonal residual",False
+2015-03-01,24.08,statistical_jump,Sudden jump up of +3.97 in one month (robust z = 4.0),False
+2015-09-01,20.96,statistical_jump,Sudden jump down of -4.97 in one month (robust z = -5.3),False
+2016-04-01,35.94,isolation_forest;statistical_jump,"Sudden jump up of +10.54 in one month (robust z = 10.8) | Unusual combination of level, monthly change and seasonal residual",False
+2017-03-01,48.25,isolation_forest;statistical_jump,"Sudden jump up of +5.55 in one month (robust z = 5.6) | Unusual combination of level, monthly change and seasonal residual",False
+2017-04-01,53.85,isolation_forest;statistical_jump,"Sudden jump up of +5.60 in one month (robust z = 5.7) | Unusual combination of level, monthly change and seasonal residual",False
+2017-05-01,51.8,isolation_forest,"Unusual combination of level, monthly change and seasonal residual",False
+2017-06-01,46.1,isolation_forest;statistical_jump,"Sudden jump down of -5.70 in one month (robust z = -6.1) | Unusual combination of level, monthly change and seasonal residual",False
+2017-10-01,35.4,statistical_jump,Sudden jump down of -9.90 in one month (robust z = -10.4),False
+2019-04-01,54.32,isolation_forest;statistical_jump,"Sudden jump up of +8.54 in one month (robust z = 8.7) | Unusual combination of level, monthly change and seasonal residual",False
+2019-05-01,54.4,isolation_forest,"Unusual combination of level, monthly change and seasonal residual",False
+2019-06-01,50.85,isolation_forest;statistical_jump,"Sudden jump down of -3.55 in one month (robust z = -3.8) | Unusual combination of level, monthly change and seasonal residual",False
+2019-07-01,51.4,isolation_forest,"Unusual combination of level, monthly change and seasonal residual",False
+2019-08-01,44.6,statistical_jump,Sudden jump down of -6.80 in one month (robust z = -7.2),False
+2019-10-01,37.5,statistical_jump,Sudden jump down of -5.94 in one month (robust z = -6.3),False
+2019-11-01,31.55,statistical_jump,Sudden jump down of -5.95 in one month (robust z = -6.3),False
+2020-02-01,40.45,statistical_jump,Sudden jump up of +3.95 in one month (robust z = 3.9),False
+2020-06-01,53.4,isolation_forest;statistical_jump,"Sudden jump up of +7.80 in one month (robust z = 7.9) | Unusual combination of level, monthly change and seasonal residual",False
+2020-07-01,43.6,isolation_forest;statistical_jump,"Sudden jump down of -9.80 in one month (robust z = -10.3) | Unusual combination of level, monthly change and seasonal residual",False
+2020-08-01,38.5,statistical_jump,Sudden jump down of -5.10 in one month (robust z = -5.4),False
+2020-09-01,31.9,statistical_jump,Sudden jump down of -6.60 in one month (robust z = -7.0),False
+2020-10-01,27.95,statistical_jump,Sudden jump down of -3.95 in one month (robust z = -4.3),False

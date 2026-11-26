@@ -1,0 +1,1986 @@
+{
+  "station": {
+    "station": "70202",
+    "district": "Chitradurga",
+    "block": "Chitradurga",
+    "latitude": 14.3665,
+    "longitude": 76.19433,
+    "raw_readings": 588,
+    "months_with_several_readings": 0,
+    "missing_months_interpolated": 0,
+    "first_month": "1972-01-01",
+    "last_month": "2020-12-01"
+  },
+  "trained_on": {
+    "train": [
+      "1972-01",
+      "2006-03"
+    ],
+    "validation": [
+      "2006-04",
+      "2013-07"
+    ],
+    "test": [
+      "2013-08",
+      "2020-12"
+    ],
+    "note": "Final models for the forecast are refit on all observed data after selection."
+  },
+  "data_quality": {
+    "months": 588,
+    "missing_months_interpolated": 0,
+    "months_with_several_readings": 0,
+    "repeated_value_months": 26,
+    "anomaly_months_flagged": 77,
+    "unit_note": "Unit is unverified; the code assumes depth to water in metres (higher = deeper).",
+    "seasonal_regime_check": {
+      "median_seasonal_rise_last_5_years_m": 19.0,
+      "median_seasonal_rise_earlier_m": 3.0100000000000007,
+      "note": "Recent seasonal swings are much larger than the earlier record. Confirm the sensor, station and unit have not changed before using recent values for decisions."
+    }
+  },
+  "features_unavailable": {
+    "rainfall": "not in dataset",
+    "temperature": "not in dataset",
+    "extraction": "not in dataset",
+    "evapotranspiration": "not in dataset",
+    "recharge_indicators": "derived from the groundwater record only",
+    "geographic_data_used": "latitude/longitude for the station map only"
+  },
+  "horizons_supported_months": [
+    1,
+    3,
+    6,
+    12
+  ],
+  "horizons_not_supported": {
+    "7_days": "monthly data",
+    "30_days": "monthly data (1 month is the nearest)"
+  },
+  "model_selection": {
+    "rule": "lowest multi-horizon MAE on the validation block; test block only for reporting",
+    "best_model": "ARIMA",
+    "best_configuration": "ARIMA AIC-selected",
+    "test_ranking_by_multi_horizon_MAE": [
+      "GRU",
+      "ARIMA",
+      "LSTM",
+      "SARIMA",
+      "Random Forest",
+      "Naive",
+      "XGBoost",
+      "Seasonal naive"
+    ]
+  },
+  "model_comparison": [
+    {
+      "Rank (validation)": 1,
+      "Model": "ARIMA",
+      "Selected configuration": "ARIMA AIC-selected",
+      "Family": "statistical",
+      "Val MAE (multi-horizon)": 4.2043,
+      "Test MAE (1-step)": 2.0273,
+      "Test RMSE (1-step)": 3.0002,
+      "Test MAPE % (1-step)": 5.985,
+      "Test R2 (1-step)": 0.8931,
+      "Test MAE (multi-horizon)": 5.845,
+      "Test RMSE (multi-horizon)": 7.3819,
+      "Test MAPE % (multi-horizon)": 18.16,
+      "Test R2 (multi-horizon)": 0.3989,
+      "MAE h=1": 1.8749,
+      "MAE h=3": 3.9435,
+      "MAE h=6": 6.0889,
+      "MAE h=12": 8.4349,
+      "Training time (s)": 0.48
+    },
+    {
+      "Rank (validation)": 2,
+      "Model": "SARIMA",
+      "Selected configuration": "SARIMA(1,1,1)(1,0,1)[12]",
+      "Family": "statistical",
+      "Val MAE (multi-horizon)": 4.3238,
+      "Test MAE (1-step)": 2.0632,
+      "Test RMSE (1-step)": 3.1538,
+      "Test MAPE % (1-step)": 6.058,
+      "Test R2 (1-step)": 0.8819,
+      "Test MAE (multi-horizon)": 6.3575,
+      "Test RMSE (multi-horizon)": 8.122,
+      "Test MAPE % (multi-horizon)": 19.97,
+      "Test R2 (multi-horizon)": 0.2724,
+      "MAE h=1": 1.8598,
+      "MAE h=3": 4.3945,
+      "MAE h=6": 6.6683,
+      "MAE h=12": 9.0419,
+      "Training time (s)": 0.23
+    },
+    {
+      "Rank (validation)": 3,
+      "Model": "Naive",
+      "Selected configuration": "Naive",
+      "Family": "baseline",
+      "Val MAE (multi-horizon)": 4.6162,
+      "Test MAE (1-step)": 2.3251,
+      "Test RMSE (1-step)": 3.4292,
+      "Test MAPE % (1-step)": 6.855,
+      "Test R2 (1-step)": 0.8603,
+      "Test MAE (multi-horizon)": 6.7645,
+      "Test RMSE (multi-horizon)": 8.5755,
+      "Test MAPE % (multi-horizon)": 20.933,
+      "Test R2 (multi-horizon)": 0.1889,
+      "MAE h=1": 2.0799,
+      "MAE h=3": 5.1642,
+      "MAE h=6": 7.7362,
+      "MAE h=12": 8.4355,
+      "Training time (s)": 0.0
+    },
+    {
+      "Rank (validation)": 4,
+      "Model": "Random Forest",
+      "Selected configuration": "RF max_depth=None, min_leaf=5",
+      "Family": "machine learning",
+      "Val MAE (multi-horizon)": 4.7074,
+      "Test MAE (1-step)": 2.5777,
+      "Test RMSE (1-step)": 3.6479,
+      "Test MAPE % (1-step)": 7.476,
+      "Test R2 (1-step)": 0.842,
+      "Test MAE (multi-horizon)": 6.5221,
+      "Test RMSE (multi-horizon)": 8.276,
+      "Test MAPE % (multi-horizon)": 20.587,
+      "Test R2 (multi-horizon)": 0.2445,
+      "MAE h=1": 2.5132,
+      "MAE h=3": 5.2493,
+      "MAE h=6": 7.5932,
+      "MAE h=12": 7.8101,
+      "Training time (s)": 0.5
+    },
+    {
+      "Rank (validation)": 5,
+      "Model": "XGBoost",
+      "Selected configuration": "XGB max_depth=2, lr=0.1, n=400",
+      "Family": "machine learning",
+      "Val MAE (multi-horizon)": 4.8604,
+      "Test MAE (1-step)": 2.7837,
+      "Test RMSE (1-step)": 3.9629,
+      "Test MAPE % (1-step)": 7.726,
+      "Test R2 (1-step)": 0.8135,
+      "Test MAE (multi-horizon)": 7.311,
+      "Test RMSE (multi-horizon)": 9.2882,
+      "Test MAPE % (multi-horizon)": 22.372,
+      "Test R2 (multi-horizon)": 0.0484,
+      "MAE h=1": 2.787,
+      "MAE h=3": 5.5046,
+      "MAE h=6": 8.0638,
+      "MAE h=12": 9.6091,
+      "Training time (s)": 0.1
+    },
+    {
+      "Rank (validation)": 6,
+      "Model": "GRU",
+      "Selected configuration": "GRU",
+      "Family": "deep learning",
+      "Val MAE (multi-horizon)": 5.9757,
+      "Test MAE (1-step)": 2.1206,
+      "Test RMSE (1-step)": 3.1553,
+      "Test MAPE % (1-step)": 6.19,
+      "Test R2 (1-step)": 0.8818,
+      "Test MAE (multi-horizon)": 5.7768,
+      "Test RMSE (multi-horizon)": 7.6115,
+      "Test MAPE % (multi-horizon)": 17.947,
+      "Test R2 (multi-horizon)": 0.361,
+      "MAE h=1": 1.9669,
+      "MAE h=3": 4.4376,
+      "MAE h=6": 6.3004,
+      "MAE h=12": 7.8189,
+      "Training time (s)": 23.09
+    },
+    {
+      "Rank (validation)": 7,
+      "Model": "LSTM",
+      "Selected configuration": "LSTM",
+      "Family": "deep learning",
+      "Val MAE (multi-horizon)": 6.2799,
+      "Test MAE (1-step)": 2.3079,
+      "Test RMSE (1-step)": 3.1753,
+      "Test MAPE % (1-step)": 6.761,
+      "Test R2 (1-step)": 0.8803,
+      "Test MAE (multi-horizon)": 6.2556,
+      "Test RMSE (multi-horizon)": 8.1171,
+      "Test MAPE % (multi-horizon)": 19.543,
+      "Test R2 (multi-horizon)": 0.2733,
+      "MAE h=1": 2.0604,
+      "MAE h=3": 4.0714,
+      "MAE h=6": 6.7347,
+      "MAE h=12": 8.6593,
+      "Training time (s)": 10.12
+    },
+    {
+      "Rank (validation)": 8,
+      "Model": "Seasonal naive",
+      "Selected configuration": "Seasonal naive (t-12)",
+      "Family": "baseline",
+      "Val MAE (multi-horizon)": 6.6513,
+      "Test MAE (1-step)": 7.8707,
+      "Test RMSE (1-step)": 9.2365,
+      "Test MAPE % (1-step)": 24.066,
+      "Test R2 (1-step)": -0.0131,
+      "Test MAE (multi-horizon)": 8.2719,
+      "Test RMSE (multi-horizon)": 9.6153,
+      "Test MAPE % (multi-horizon)": 25.377,
+      "Test R2 (multi-horizon)": -0.0198,
+      "MAE h=1": 8.0885,
+      "MAE h=3": 8.1126,
+      "MAE h=6": 8.2368,
+      "MAE h=12": 8.4355,
+      "Training time (s)": 0.0
+    }
+  ],
+  "ablation": [
+    {
+      "Feature set": "History only (lagged levels)",
+      "Features": 5,
+      "Val MAE": 5.0542,
+      "Test MAE (multi-horizon)": 7.0762,
+      "Test RMSE (multi-horizon)": 8.9625,
+      "Test R2 (multi-horizon)": 0.114
+    },
+    {
+      "Feature set": "History + rolling & change features",
+      "Features": 10,
+      "Val MAE": 5.2722,
+      "Test MAE (multi-horizon)": 7.6295,
+      "Test RMSE (multi-horizon)": 9.8262,
+      "Test R2 (multi-horizon)": -0.065
+    },
+    {
+      "Feature set": "History + rolling + seasonal calendar",
+      "Features": 12,
+      "Val MAE": 4.8604,
+      "Test MAE (multi-horizon)": 7.311,
+      "Test RMSE (multi-horizon)": 9.2882,
+      "Test R2 (multi-horizon)": 0.0484
+    },
+    {
+      "Feature set": "+ rainfall, temperature, extraction",
+      "Features": 0,
+      "Val MAE": null,
+      "Test MAE (multi-horizon)": null,
+      "Test RMSE (multi-horizon)": null,
+      "Test R2 (multi-horizon)": null,
+      "Note": "Not run: these series are not in the dataset"
+    }
+  ],
+  "forecast": {
+    "best_model": "ARIMA",
+    "months": [
+      {
+        "month": "2021-01",
+        "horizon_months": 1,
+        "forecast_level": 32.253731450611554,
+        "band_low": 29.832048386107285,
+        "band_high": 34.675414515115826,
+        "forecast: Naive": 30.3,
+        "forecast: Seasonal naive": 36.5,
+        "forecast: ARIMA": 32.253731450611554,
+        "forecast: SARIMA": 31.76145094342818,
+        "forecast: Random Forest": 31.565165373651524,
+        "forecast: XGBoost": 31.909130096435547,
+        "forecast: LSTM": 32.76444234701419,
+        "forecast: GRU": 33.31021002618522
+      },
+      {
+        "month": "2021-02",
+        "horizon_months": 2,
+        "forecast_level": 34.88268835246028,
+        "band_low": 30.57349725422313,
+        "band_high": 39.19187945069743,
+        "forecast: Naive": 30.3,
+        "forecast: Seasonal naive": 40.45,
+        "forecast: ARIMA": 34.88268835246028,
+        "forecast: SARIMA": 33.11015256653315,
+        "forecast: Random Forest": 32.52225703567529,
+        "forecast: XGBoost": 32.64931869506836,
+        "forecast: LSTM": 35.55692949891572,
+        "forecast: GRU": 35.49860054330827
+      },
+      {
+        "month": "2021-03",
+        "horizon_months": 3,
+        "forecast_level": 37.47996073191439,
+        "band_low": 30.96540953189526,
+        "band_high": 43.994511931933516,
+        "forecast: Naive": 30.3,
+        "forecast: Seasonal naive": 43.2,
+        "forecast: ARIMA": 37.47996073191439,
+        "forecast: SARIMA": 34.82527220754021,
+        "forecast: Random Forest": 33.29961932502984,
+        "forecast: XGBoost": 33.37393569946289,
+        "forecast: LSTM": 37.81330984091068,
+        "forecast: GRU": 36.5820901037647
+      },
+      {
+        "month": "2021-04",
+        "horizon_months": 4,
+        "forecast_level": 39.34257093434033,
+        "band_low": 32.35623573149208,
+        "band_high": 46.32890613718858,
+        "forecast: Naive": 30.3,
+        "forecast: Seasonal naive": 44.6,
+        "forecast: ARIMA": 39.34257093434033,
+        "forecast: SARIMA": 37.10395874389122,
+        "forecast: Random Forest": 33.56529529059449,
+        "forecast: XGBoost": 33.68692398071289,
+        "forecast: LSTM": 39.47022445945228,
+        "forecast: GRU": 37.14979056721178
+      },
+      {
+        "month": "2021-05",
+        "horizon_months": 5,
+        "forecast_level": 39.96171104832022,
+        "band_low": 31.91777811273764,
+        "band_high": 48.0056439839028,
+        "forecast: Naive": 30.3,
+        "forecast: Seasonal naive": 45.6,
+        "forecast: ARIMA": 39.96171104832022,
+        "forecast: SARIMA": 37.314036640992185,
+        "forecast: Random Forest": 33.56360275243819,
+        "forecast: XGBoost": 34.39635467529297,
+        "forecast: LSTM": 40.9146040595938,
+        "forecast: GRU": 37.60673096271495
+      },
+      {
+        "month": "2021-06",
+        "horizon_months": 6,
+        "forecast_level": 39.161690816030855,
+        "band_low": 29.07603841766642,
+        "band_high": 49.247343214395286,
+        "forecast: Naive": 30.3,
+        "forecast: Seasonal naive": 53.4,
+        "forecast: ARIMA": 39.161690816030855,
+        "forecast: SARIMA": 36.804487028869644,
+        "forecast: Random Forest": 32.919256820792846,
+        "forecast: XGBoost": 35.60432052612305,
+        "forecast: LSTM": 41.94277311463698,
+        "forecast: GRU": 37.799353062416955
+      },
+      {
+        "month": "2021-07",
+        "horizon_months": 7,
+        "forecast_level": 37.14966280458146,
+        "band_low": 26.143713310737397,
+        "band_high": 48.155612298425524,
+        "forecast: Naive": 30.3,
+        "forecast: Seasonal naive": 43.6,
+        "forecast: ARIMA": 37.14966280458146,
+        "forecast: SARIMA": 36.044524177507625,
+        "forecast: Random Forest": 32.25362561171368,
+        "forecast: XGBoost": 36.489986419677734,
+        "forecast: LSTM": 41.38556938352686,
+        "forecast: GRU": 36.952187774584544
+      },
+      {
+        "month": "2021-08",
+        "horizon_months": 8,
+        "forecast_level": 34.46208445878233,
+        "band_low": 23.767497122151767,
+        "band_high": 45.15667179541289,
+        "forecast: Naive": 30.3,
+        "forecast: Seasonal naive": 38.5,
+        "forecast: ARIMA": 34.46208445878233,
+        "forecast: SARIMA": 35.03082676462118,
+        "forecast: Random Forest": 31.395967037996105,
+        "forecast: XGBoost": 35.7194938659668,
+        "forecast: LSTM": 38.635543747275655,
+        "forecast: GRU": 34.285577660202634
+      },
+      {
+        "month": "2021-09",
+        "horizon_months": 9,
+        "forecast_level": 31.82172540259251,
+        "band_low": 21.67933137742323,
+        "band_high": 41.96411942776179,
+        "forecast: Naive": 30.3,
+        "forecast: Seasonal naive": 31.9,
+        "forecast: ARIMA": 31.82172540259251,
+        "forecast: SARIMA": 33.14215672883618,
+        "forecast: Random Forest": 31.10303546328515,
+        "forecast: XGBoost": 33.829750061035156,
+        "forecast: LSTM": 35.01537808386784,
+        "forecast: GRU": 30.506767156232044
+      },
+      {
+        "month": "2021-10",
+        "horizon_months": 10,
+        "forecast_level": 29.94332366440189,
+        "band_low": 19.18085138586619,
+        "band_high": 40.70579594293759,
+        "forecast: Naive": 30.3,
+        "forecast: Seasonal naive": 27.95,
+        "forecast: ARIMA": 29.94332366440189,
+        "forecast: SARIMA": 30.735176332390296,
+        "forecast: Random Forest": 31.458791666451603,
+        "forecast: XGBoost": 32.542205810546875,
+        "forecast: LSTM": 31.408128886072724,
+        "forecast: GRU": 28.090538265163207
+      },
+      {
+        "month": "2021-11",
+        "horizon_months": 11,
+        "forecast_level": 29.340139220494006,
+        "band_low": 17.135632206257537,
+        "band_high": 41.54464623473048,
+        "forecast: Naive": 30.3,
+        "forecast: Seasonal naive": 29.2,
+        "forecast: ARIMA": 29.340139220494006,
+        "forecast: SARIMA": 29.568649178586387,
+        "forecast: Random Forest": 31.876412217619013,
+        "forecast: XGBoost": 32.412994384765625,
+        "forecast: LSTM": 30.981672860209304,
+        "forecast: GRU": 28.610361345743545
+      },
+      {
+        "month": "2021-12",
+        "horizon_months": 12,
+        "forecast_level": 30.1837534663318,
+        "band_low": 17.345185338757275,
+        "band_high": 43.02232159390633,
+        "forecast: Naive": 30.3,
+        "forecast: Seasonal naive": 30.3,
+        "forecast: ARIMA": 30.1837534663318,
+        "forecast: SARIMA": 30.567179101608772,
+        "forecast: Random Forest": 32.21309053421799,
+        "forecast: XGBoost": 33.194400787353516,
+        "forecast: LSTM": 33.197705155658696,
+        "forecast: GRU": 30.974587319556782
+      }
+    ]
+  },
+  "risk": {
+    "current": {
+      "month": "2020-12",
+      "level": 30.3,
+      "risk_index": 32.0,
+      "risk_class": "Moderate Risk",
+      "components": {
+        "level": 63.3,
+        "decline": 0.0,
+        "seasonal": 65.8,
+        "recharge": 0.0
+      },
+      "weights_used": {
+        "level": 0.35,
+        "decline": 0.25,
+        "seasonal": 0.15,
+        "recharge": 0.25
+      }
+    },
+    "weights_used": {
+      "level": 0.35,
+      "decline": 0.25,
+      "seasonal": 0.15,
+      "recharge": 0.25
+    },
+    "class_edges": [
+      25,
+      50,
+      75
+    ],
+    "critical_depth_m": 41.952000000000005,
+    "forecast_mean_risk_index": 34.725
+  },
+  "alerts": [
+    {
+      "type": "unusual_fluctuations",
+      "severity": "medium",
+      "message": "6 unusual month(s) flagged in the last 12 months; check the sensor and data quality.",
+      "window_start": "2020-02",
+      "window_end": "2020-10"
+    },
+    {
+      "type": "low_predicted_rainfall",
+      "severity": "not_evaluated",
+      "message": "Not evaluated: No rainfall series in the dataset.",
+      "window_start": null,
+      "window_end": null
+    },
+    {
+      "type": "excessive_extraction",
+      "severity": "not_evaluated",
+      "message": "Not evaluated: No extraction series in the dataset.",
+      "window_start": null,
+      "window_end": null
+    }
+  ],
+  "anomalies": [
+    {
+      "month": "1972-01-01",
+      "level": 7.7,
+      "methods": "repeated_value",
+      "reason": "Same reading (7.70) repeated for 6 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1972-02-01",
+      "level": 7.7,
+      "methods": "repeated_value",
+      "reason": "Same reading (7.70) repeated for 6 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1972-03-01",
+      "level": 7.7,
+      "methods": "repeated_value",
+      "reason": "Same reading (7.70) repeated for 6 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1972-04-01",
+      "level": 7.7,
+      "methods": "repeated_value",
+      "reason": "Same reading (7.70) repeated for 6 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1972-05-01",
+      "level": 7.7,
+      "methods": "repeated_value",
+      "reason": "Same reading (7.70) repeated for 6 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1972-06-01",
+      "level": 7.7,
+      "methods": "repeated_value",
+      "reason": "Same reading (7.70) repeated for 6 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1973-02-01",
+      "level": 14.37,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump up of +5.57 in one month (robust z = 5.6)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "1973-09-01",
+      "level": 11.23,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump down of -4.00 in one month (robust z = -4.3)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "1977-09-01",
+      "level": 12.13,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump down of -3.90 in one month (robust z = -4.2)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "1977-10-01",
+      "level": 6.9,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump down of -5.23 in one month (robust z = -5.6)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "1988-09-01",
+      "level": 6.15,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump down of -3.80 in one month (robust z = -4.1)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "1989-12-01",
+      "level": 15.0,
+      "methods": "repeated_value;statistical_jump",
+      "reason": "Sudden jump up of +5.25 in one month (robust z = 5.3) | Same reading (15.00) repeated for 20 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1990-01-01",
+      "level": 15.0,
+      "methods": "repeated_value",
+      "reason": "Same reading (15.00) repeated for 20 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1990-02-01",
+      "level": 15.0,
+      "methods": "repeated_value",
+      "reason": "Same reading (15.00) repeated for 20 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1990-03-01",
+      "level": 15.0,
+      "methods": "repeated_value",
+      "reason": "Same reading (15.00) repeated for 20 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1990-04-01",
+      "level": 15.0,
+      "methods": "repeated_value",
+      "reason": "Same reading (15.00) repeated for 20 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1990-05-01",
+      "level": 15.0,
+      "methods": "repeated_value",
+      "reason": "Same reading (15.00) repeated for 20 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1990-06-01",
+      "level": 15.0,
+      "methods": "repeated_value",
+      "reason": "Same reading (15.00) repeated for 20 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1990-07-01",
+      "level": 15.0,
+      "methods": "repeated_value",
+      "reason": "Same reading (15.00) repeated for 20 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1990-08-01",
+      "level": 15.0,
+      "methods": "repeated_value",
+      "reason": "Same reading (15.00) repeated for 20 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1990-09-01",
+      "level": 15.0,
+      "methods": "repeated_value",
+      "reason": "Same reading (15.00) repeated for 20 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1990-10-01",
+      "level": 15.0,
+      "methods": "repeated_value",
+      "reason": "Same reading (15.00) repeated for 20 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1990-11-01",
+      "level": 15.0,
+      "methods": "repeated_value",
+      "reason": "Same reading (15.00) repeated for 20 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1990-12-01",
+      "level": 15.0,
+      "methods": "repeated_value",
+      "reason": "Same reading (15.00) repeated for 20 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1991-01-01",
+      "level": 15.0,
+      "methods": "repeated_value",
+      "reason": "Same reading (15.00) repeated for 20 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1991-02-01",
+      "level": 15.0,
+      "methods": "repeated_value",
+      "reason": "Same reading (15.00) repeated for 20 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1991-03-01",
+      "level": 15.0,
+      "methods": "repeated_value",
+      "reason": "Same reading (15.00) repeated for 20 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1991-04-01",
+      "level": 15.0,
+      "methods": "repeated_value",
+      "reason": "Same reading (15.00) repeated for 20 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1991-05-01",
+      "level": 15.0,
+      "methods": "repeated_value",
+      "reason": "Same reading (15.00) repeated for 20 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1991-06-01",
+      "level": 15.0,
+      "methods": "repeated_value",
+      "reason": "Same reading (15.00) repeated for 20 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1991-07-01",
+      "level": 15.0,
+      "methods": "repeated_value",
+      "reason": "Same reading (15.00) repeated for 20 or more consecutive months",
+      "is_repeated_value": true
+    },
+    {
+      "month": "1991-08-01",
+      "level": 31.6,
+      "methods": "isolation_forest;statistical_jump",
+      "reason": "Sudden jump up of +16.60 in one month (robust z = 17.1) | Unusual combination of level, monthly change and seasonal residual",
+      "is_repeated_value": false
+    },
+    {
+      "month": "1992-04-01",
+      "level": 31.65,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump up of +3.85 in one month (robust z = 3.8)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "1996-10-01",
+      "level": 36.8,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump down of -4.45 in one month (robust z = -4.8)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "1998-10-01",
+      "level": 36.6,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump down of -7.70 in one month (robust z = -8.1)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "1999-10-01",
+      "level": 24.06,
+      "methods": "isolation_forest;statistical_jump",
+      "reason": "Sudden jump down of -14.84 in one month (robust z = -15.6) | Unusual combination of level, monthly change and seasonal residual",
+      "is_repeated_value": false
+    },
+    {
+      "month": "1999-12-01",
+      "level": 27.01,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump up of +4.51 in one month (robust z = 4.5)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2000-02-01",
+      "level": 36.95,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump up of +8.20 in one month (robust z = 8.4)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2000-08-01",
+      "level": 37.8,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump down of -4.25 in one month (robust z = -4.6)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2000-11-01",
+      "level": 22.1,
+      "methods": "isolation_forest;statistical_jump",
+      "reason": "Sudden jump down of -14.60 in one month (robust z = -15.3) | Unusual combination of level, monthly change and seasonal residual",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2001-01-01",
+      "level": 25.9,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump up of +3.80 in one month (robust z = 3.8)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2003-10-01",
+      "level": 47.7,
+      "methods": "isolation_forest;statistical_jump",
+      "reason": "Sudden jump up of +3.90 in one month (robust z = 3.9) | Unusual combination of level, monthly change and seasonal residual",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2003-11-01",
+      "level": 43.1,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump down of -4.60 in one month (robust z = -4.9)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2004-03-01",
+      "level": 48.95,
+      "methods": "isolation_forest;statistical_jump",
+      "reason": "Sudden jump up of +4.50 in one month (robust z = 4.5) | Unusual combination of level, monthly change and seasonal residual",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2004-05-01",
+      "level": 44.1,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump down of -5.10 in one month (robust z = -5.4)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2005-09-01",
+      "level": 34.5,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump down of -4.90 in one month (robust z = -5.2)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2007-09-01",
+      "level": 33.9,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump down of -4.00 in one month (robust z = -4.3)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2007-10-01",
+      "level": 29.3,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump down of -4.60 in one month (robust z = -4.9)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2008-10-01",
+      "level": 26.0,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump down of -3.30 in one month (robust z = -3.6)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2009-06-01",
+      "level": 26.0,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump down of -5.40 in one month (robust z = -5.8)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2009-09-01",
+      "level": 17.4,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump down of -4.30 in one month (robust z = -4.6)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2009-11-01",
+      "level": 12.85,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump down of -3.60 in one month (robust z = -3.9)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2012-11-01",
+      "level": 27.9,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump down of -3.90 in one month (robust z = -4.2)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2013-02-01",
+      "level": 31.31,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump up of +3.99 in one month (robust z = 4.0)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2014-09-01",
+      "level": 25.0,
+      "methods": "isolation_forest;statistical_jump",
+      "reason": "Sudden jump down of -7.90 in one month (robust z = -8.4) | Unusual combination of level, monthly change and seasonal residual",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2014-10-01",
+      "level": 17.6,
+      "methods": "isolation_forest;statistical_jump",
+      "reason": "Sudden jump down of -7.40 in one month (robust z = -7.8) | Unusual combination of level, monthly change and seasonal residual",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2015-03-01",
+      "level": 24.08,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump up of +3.97 in one month (robust z = 4.0)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2015-09-01",
+      "level": 20.96,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump down of -4.97 in one month (robust z = -5.3)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2016-04-01",
+      "level": 35.94,
+      "methods": "isolation_forest;statistical_jump",
+      "reason": "Sudden jump up of +10.54 in one month (robust z = 10.8) | Unusual combination of level, monthly change and seasonal residual",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2017-03-01",
+      "level": 48.25,
+      "methods": "isolation_forest;statistical_jump",
+      "reason": "Sudden jump up of +5.55 in one month (robust z = 5.6) | Unusual combination of level, monthly change and seasonal residual",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2017-04-01",
+      "level": 53.85,
+      "methods": "isolation_forest;statistical_jump",
+      "reason": "Sudden jump up of +5.60 in one month (robust z = 5.7) | Unusual combination of level, monthly change and seasonal residual",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2017-05-01",
+      "level": 51.8,
+      "methods": "isolation_forest",
+      "reason": "Unusual combination of level, monthly change and seasonal residual",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2017-06-01",
+      "level": 46.1,
+      "methods": "isolation_forest;statistical_jump",
+      "reason": "Sudden jump down of -5.70 in one month (robust z = -6.1) | Unusual combination of level, monthly change and seasonal residual",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2017-10-01",
+      "level": 35.4,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump down of -9.90 in one month (robust z = -10.4)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2019-04-01",
+      "level": 54.32,
+      "methods": "isolation_forest;statistical_jump",
+      "reason": "Sudden jump up of +8.54 in one month (robust z = 8.7) | Unusual combination of level, monthly change and seasonal residual",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2019-05-01",
+      "level": 54.4,
+      "methods": "isolation_forest",
+      "reason": "Unusual combination of level, monthly change and seasonal residual",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2019-06-01",
+      "level": 50.85,
+      "methods": "isolation_forest;statistical_jump",
+      "reason": "Sudden jump down of -3.55 in one month (robust z = -3.8) | Unusual combination of level, monthly change and seasonal residual",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2019-07-01",
+      "level": 51.4,
+      "methods": "isolation_forest",
+      "reason": "Unusual combination of level, monthly change and seasonal residual",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2019-08-01",
+      "level": 44.6,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump down of -6.80 in one month (robust z = -7.2)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2019-10-01",
+      "level": 37.5,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump down of -5.94 in one month (robust z = -6.3)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2019-11-01",
+      "level": 31.55,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump down of -5.95 in one month (robust z = -6.3)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2020-02-01",
+      "level": 40.45,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump up of +3.95 in one month (robust z = 3.9)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2020-06-01",
+      "level": 53.4,
+      "methods": "isolation_forest;statistical_jump",
+      "reason": "Sudden jump up of +7.80 in one month (robust z = 7.9) | Unusual combination of level, monthly change and seasonal residual",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2020-07-01",
+      "level": 43.6,
+      "methods": "isolation_forest;statistical_jump",
+      "reason": "Sudden jump down of -9.80 in one month (robust z = -10.3) | Unusual combination of level, monthly change and seasonal residual",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2020-08-01",
+      "level": 38.5,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump down of -5.10 in one month (robust z = -5.4)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2020-09-01",
+      "level": 31.9,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump down of -6.60 in one month (robust z = -7.0)",
+      "is_repeated_value": false
+    },
+    {
+      "month": "2020-10-01",
+      "level": 27.95,
+      "methods": "statistical_jump",
+      "reason": "Sudden jump down of -3.95 in one month (robust z = -4.3)",
+      "is_repeated_value": false
+    }
+  ],
+  "recovery": {
+    "summary": {
+      "years_analysed": 49,
+      "median_rise_m": 3.0699999999999985,
+      "median_response_months": 5.0,
+      "median_rise_rate_m_per_month": 0.7114285714285712,
+      "median_recession_months": 7.0,
+      "recession_months_iqr": [
+        2.5,
+        24.5
+      ],
+      "share_of_years_with_recovery": 0.8775510204081632,
+      "latest_year": 2020,
+      "latest_rise_m": 25.45,
+      "latest_recovery_ratio": 8.289902280130297,
+      "median_positive_rise_m": 3.9200000000000017
+    },
+    "events": [
+      {
+        "year": 1972,
+        "pre_month": "1972-04",
+        "pre_level": 7.7,
+        "post_month": "1972-12",
+        "post_level": 8.66,
+        "rise": -0.96,
+        "response_months": 8,
+        "rise_rate_per_month": -0.12,
+        "recession_months": 0.0
+      },
+      {
+        "year": 1973,
+        "pre_month": "1973-06",
+        "pre_level": 17.23,
+        "post_month": "1973-12",
+        "post_level": 9.42,
+        "rise": 7.8100000000000005,
+        "response_months": 6,
+        "rise_rate_per_month": 1.3016666666666667,
+        "recession_months": 212.0
+      },
+      {
+        "year": 1974,
+        "pre_month": "1974-04",
+        "pre_level": 12.98,
+        "post_month": "1974-11",
+        "post_level": 10.23,
+        "rise": 2.75,
+        "response_months": 7,
+        "rise_rate_per_month": 0.39285714285714285,
+        "recession_months": 29.0
+      },
+      {
+        "year": 1975,
+        "pre_month": "1975-05",
+        "pre_level": 12.04,
+        "post_month": "1975-10",
+        "post_level": 8.97,
+        "rise": 3.0699999999999985,
+        "response_months": 5,
+        "rise_rate_per_month": 0.6139999999999997,
+        "recession_months": 16.0
+      },
+      {
+        "year": 1976,
+        "pre_month": "1976-04",
+        "pre_level": 10.62,
+        "post_month": "1976-09",
+        "post_level": 7.76,
+        "rise": 2.8599999999999994,
+        "response_months": 5,
+        "rise_rate_per_month": 0.5719999999999998,
+        "recession_months": 5.0
+      },
+      {
+        "year": 1977,
+        "pre_month": "1977-04",
+        "pre_level": 13.14,
+        "post_month": "1977-11",
+        "post_level": 5.33,
+        "rise": 7.8100000000000005,
+        "response_months": 7,
+        "rise_rate_per_month": 1.1157142857142859,
+        "recession_months": 101.0
+      },
+      {
+        "year": 1978,
+        "pre_month": "1978-05",
+        "pre_level": 7.75,
+        "post_month": "1978-10",
+        "post_level": 5.73,
+        "rise": 2.0199999999999996,
+        "response_months": 5,
+        "rise_rate_per_month": 0.4039999999999999,
+        "recession_months": 6.0
+      },
+      {
+        "year": 1979,
+        "pre_month": "1979-06",
+        "pre_level": 8.83,
+        "post_month": "1979-09",
+        "post_level": 5.9,
+        "rise": 2.9299999999999997,
+        "response_months": 3,
+        "rise_rate_per_month": 0.9766666666666666,
+        "recession_months": 68.0
+      },
+      {
+        "year": 1980,
+        "pre_month": "1980-04",
+        "pre_level": 8.13,
+        "post_month": "1980-11",
+        "post_level": 3.13,
+        "rise": 5.000000000000001,
+        "response_months": 7,
+        "rise_rate_per_month": 0.7142857142857144,
+        "recession_months": 20.0
+      },
+      {
+        "year": 1981,
+        "pre_month": "1981-06",
+        "pre_level": 7.43,
+        "post_month": "1981-11",
+        "post_level": 5.41,
+        "rise": 2.0199999999999996,
+        "response_months": 5,
+        "rise_rate_per_month": 0.4039999999999999,
+        "recession_months": 6.0
+      },
+      {
+        "year": 1982,
+        "pre_month": "1982-06",
+        "pre_level": 7.98,
+        "post_month": "1982-11",
+        "post_level": 5.57,
+        "rise": 2.41,
+        "response_months": 5,
+        "rise_rate_per_month": 0.48200000000000004,
+        "recession_months": 6.0
+      },
+      {
+        "year": 1983,
+        "pre_month": "1983-05",
+        "pre_level": 8.54,
+        "post_month": "1983-11",
+        "post_level": 5.76,
+        "rise": 2.7799999999999994,
+        "response_months": 6,
+        "rise_rate_per_month": 0.4633333333333332,
+        "recession_months": 18.0
+      },
+      {
+        "year": 1984,
+        "pre_month": "1984-04",
+        "pre_level": 8.28,
+        "post_month": "1984-11",
+        "post_level": 6.33,
+        "rise": 1.9499999999999993,
+        "response_months": 7,
+        "rise_rate_per_month": 0.27857142857142847,
+        "recession_months": 6.0
+      },
+      {
+        "year": 1985,
+        "pre_month": "1985-06",
+        "pre_level": 10.41,
+        "post_month": "1985-11",
+        "post_level": 8.61,
+        "rise": 1.8000000000000007,
+        "response_months": 5,
+        "rise_rate_per_month": 0.36000000000000015,
+        "recession_months": 3.0
+      },
+      {
+        "year": 1986,
+        "pre_month": "1986-05",
+        "pre_level": 14.28,
+        "post_month": "1986-12",
+        "post_level": 9.3,
+        "rise": 4.979999999999999,
+        "response_months": 7,
+        "rise_rate_per_month": 0.7114285714285712,
+        "recession_months": 7.0
+      },
+      {
+        "year": 1987,
+        "pre_month": "1987-06",
+        "pre_level": 13.31,
+        "post_month": "1987-12",
+        "post_level": 6.79,
+        "rise": 6.5200000000000005,
+        "response_months": 6,
+        "rise_rate_per_month": 1.0866666666666667,
+        "recession_months": 24.0
+      },
+      {
+        "year": 1988,
+        "pre_month": "1988-06",
+        "pre_level": 12.63,
+        "post_month": "1988-10",
+        "post_level": 5.55,
+        "rise": 7.080000000000001,
+        "response_months": 4,
+        "rise_rate_per_month": 1.7700000000000002,
+        "recession_months": 14.0
+      },
+      {
+        "year": 1989,
+        "pre_month": "1989-06",
+        "pre_level": 12.35,
+        "post_month": "1989-09",
+        "post_level": 9.05,
+        "rise": 3.299999999999999,
+        "response_months": 3,
+        "rise_rate_per_month": 1.0999999999999996,
+        "recession_months": 3.0
+      },
+      {
+        "year": 1990,
+        "pre_month": "1990-04",
+        "pre_level": 15.0,
+        "post_month": "1990-09",
+        "post_level": 15.0,
+        "rise": 0.0,
+        "response_months": 5,
+        "rise_rate_per_month": 0.0,
+        "recession_months": 0.0
+      },
+      {
+        "year": 1991,
+        "pre_month": "1991-04",
+        "pre_level": 15.0,
+        "post_month": "1991-12",
+        "post_level": 25.29,
+        "rise": -10.29,
+        "response_months": 8,
+        "rise_rate_per_month": -1.28625,
+        "recession_months": 0.0
+      },
+      {
+        "year": 1992,
+        "pre_month": "1992-05",
+        "pre_level": 33.95,
+        "post_month": "1992-10",
+        "post_level": 31.85,
+        "rise": 2.1000000000000014,
+        "response_months": 5,
+        "rise_rate_per_month": 0.42000000000000026,
+        "recession_months": 6.0
+      },
+      {
+        "year": 1993,
+        "pre_month": "1993-06",
+        "pre_level": 36.0,
+        "post_month": "1993-11",
+        "post_level": 32.08,
+        "rise": 3.9200000000000017,
+        "response_months": 5,
+        "rise_rate_per_month": 0.7840000000000004,
+        "recession_months": 20.0
+      },
+      {
+        "year": 1994,
+        "pre_month": "1994-06",
+        "pre_level": 34.0,
+        "post_month": "1994-10",
+        "post_level": 30.39,
+        "rise": 3.6099999999999994,
+        "response_months": 4,
+        "rise_rate_per_month": 0.9024999999999999,
+        "recession_months": 7.0
+      },
+      {
+        "year": 1995,
+        "pre_month": "1995-06",
+        "pre_level": 35.9,
+        "post_month": "1995-10",
+        "post_level": 37.18,
+        "rise": -1.2800000000000011,
+        "response_months": 4,
+        "rise_rate_per_month": -0.3200000000000003,
+        "recession_months": 0.0
+      },
+      {
+        "year": 1996,
+        "pre_month": "1996-06",
+        "pre_level": 43.15,
+        "post_month": "1996-12",
+        "post_level": 34.8,
+        "rise": 8.350000000000001,
+        "response_months": 6,
+        "rise_rate_per_month": 1.3916666666666668,
+        "recession_months": 17.0
+      },
+      {
+        "year": 1997,
+        "pre_month": "1997-05",
+        "pre_level": 38.0,
+        "post_month": "1997-09",
+        "post_level": 36.5,
+        "rise": 1.5,
+        "response_months": 4,
+        "rise_rate_per_month": 0.375,
+        "recession_months": 2.0
+      },
+      {
+        "year": 1998,
+        "pre_month": "1998-06",
+        "pre_level": 44.2,
+        "post_month": "1998-10",
+        "post_level": 36.6,
+        "rise": 7.600000000000001,
+        "response_months": 4,
+        "rise_rate_per_month": 1.9000000000000004,
+        "recession_months": 56.0
+      },
+      {
+        "year": 1999,
+        "pre_month": "1999-04",
+        "pre_level": 39.3,
+        "post_month": "1999-11",
+        "post_level": 22.5,
+        "rise": 16.799999999999997,
+        "response_months": 7,
+        "rise_rate_per_month": 2.3999999999999995,
+        "recession_months": 6.0
+      },
+      {
+        "year": 2000,
+        "pre_month": "2000-06",
+        "pre_level": 41.65,
+        "post_month": "2000-11",
+        "post_level": 22.1,
+        "rise": 19.549999999999997,
+        "response_months": 5,
+        "rise_rate_per_month": 3.9099999999999993,
+        "recession_months": 28.0
+      },
+      {
+        "year": 2001,
+        "pre_month": "2001-06",
+        "pre_level": 30.85,
+        "post_month": "2001-10",
+        "post_level": 30.1,
+        "rise": 0.75,
+        "response_months": 4,
+        "rise_rate_per_month": 0.1875,
+        "recession_months": 1.0
+      },
+      {
+        "year": 2002,
+        "pre_month": "2002-05",
+        "pre_level": 39.2,
+        "post_month": "2002-11",
+        "post_level": 38.9,
+        "rise": 0.30000000000000426,
+        "response_months": 6,
+        "rise_rate_per_month": 0.05000000000000071,
+        "recession_months": 1.0
+      },
+      {
+        "year": 2003,
+        "pre_month": "2003-06",
+        "pre_level": 44.3,
+        "post_month": "2003-11",
+        "post_level": 43.1,
+        "rise": 1.1999999999999957,
+        "response_months": 5,
+        "rise_rate_per_month": 0.23999999999999916,
+        "recession_months": 3.0
+      },
+      {
+        "year": 2004,
+        "pre_month": "2004-04",
+        "pre_level": 49.2,
+        "post_month": "2004-09",
+        "post_level": 38.3,
+        "rise": 10.900000000000006,
+        "response_months": 5,
+        "rise_rate_per_month": 2.180000000000001,
+        "recession_months": 151.0
+      },
+      {
+        "year": 2005,
+        "pre_month": "2005-04",
+        "pre_level": 42.95,
+        "post_month": "2005-11",
+        "post_level": 30.8,
+        "rise": 12.150000000000002,
+        "response_months": 7,
+        "rise_rate_per_month": 1.735714285714286,
+        "recession_months": 136.0
+      },
+      {
+        "year": 2006,
+        "pre_month": "2006-06",
+        "pre_level": 37.6,
+        "post_month": "2006-11",
+        "post_level": 36.8,
+        "rise": 0.8000000000000043,
+        "response_months": 5,
+        "rise_rate_per_month": 0.16000000000000086,
+        "recession_months": 2.0
+      },
+      {
+        "year": 2007,
+        "pre_month": "2007-05",
+        "pre_level": 42.1,
+        "post_month": "2007-11",
+        "post_level": 26.75,
+        "rise": 15.350000000000001,
+        "response_months": 6,
+        "rise_rate_per_month": 2.5583333333333336,
+        "recession_months": 111.0
+      },
+      {
+        "year": 2008,
+        "pre_month": "2008-05",
+        "pre_level": 33.5,
+        "post_month": "2008-11",
+        "post_level": 25.9,
+        "rise": 7.600000000000001,
+        "response_months": 6,
+        "rise_rate_per_month": 1.2666666666666668,
+        "recession_months": 53.0
+      },
+      {
+        "year": 2009,
+        "pre_month": "2009-05",
+        "pre_level": 31.4,
+        "post_month": "2009-12",
+        "post_level": 12.75,
+        "rise": 18.65,
+        "response_months": 7,
+        "rise_rate_per_month": 2.664285714285714,
+        "recession_months": 34.0
+      },
+      {
+        "year": 2010,
+        "pre_month": "2010-05",
+        "pre_level": 16.7,
+        "post_month": "2010-11",
+        "post_level": 10.05,
+        "rise": 6.649999999999999,
+        "response_months": 6,
+        "rise_rate_per_month": 1.1083333333333332,
+        "recession_months": 9.0
+      },
+      {
+        "year": 2011,
+        "pre_month": "2011-05",
+        "pre_level": 15.6,
+        "post_month": "2011-10",
+        "post_level": 16.65,
+        "rise": -1.049999999999999,
+        "response_months": 5,
+        "rise_rate_per_month": -0.2099999999999998,
+        "recession_months": 0.0
+      },
+      {
+        "year": 2012,
+        "pre_month": "2012-06",
+        "pre_level": 25.05,
+        "post_month": "2012-12",
+        "post_level": 26.55,
+        "rise": -1.5,
+        "response_months": 6,
+        "rise_rate_per_month": -0.25,
+        "recession_months": 0.0
+      },
+      {
+        "year": 2013,
+        "pre_month": "2013-04",
+        "pre_level": 33.85,
+        "post_month": "2013-09",
+        "post_level": 30.9,
+        "rise": 2.950000000000003,
+        "response_months": 5,
+        "rise_rate_per_month": 0.5900000000000005,
+        "recession_months": 4.0
+      },
+      {
+        "year": 2014,
+        "pre_month": "2014-04",
+        "pre_level": 37.75,
+        "post_month": "2014-11",
+        "post_level": 15.37,
+        "rise": 22.380000000000003,
+        "response_months": 7,
+        "rise_rate_per_month": 3.1971428571428575,
+        "recession_months": 25.0
+      },
+      {
+        "year": 2015,
+        "pre_month": "2015-05",
+        "pre_level": 25.8,
+        "post_month": "2015-09",
+        "post_level": 20.96,
+        "rise": 4.84,
+        "response_months": 4,
+        "rise_rate_per_month": 1.21,
+        "recession_months": 7.0
+      },
+      {
+        "year": 2016,
+        "pre_month": "2016-04",
+        "pre_level": 35.94,
+        "post_month": "2016-09",
+        "post_level": 35.0,
+        "rise": 0.9399999999999977,
+        "response_months": 5,
+        "rise_rate_per_month": 0.18799999999999956,
+        "recession_months": 2.0
+      },
+      {
+        "year": 2017,
+        "pre_month": "2017-04",
+        "pre_level": 53.85,
+        "post_month": "2017-11",
+        "post_level": 34.85,
+        "rise": 19.0,
+        "response_months": 7,
+        "rise_rate_per_month": 2.7142857142857144,
+        "recession_months": 17.0
+      },
+      {
+        "year": 2018,
+        "pre_month": "2018-06",
+        "pre_level": 43.35,
+        "post_month": "2018-11",
+        "post_level": 40.55,
+        "rise": 2.8000000000000043,
+        "response_months": 5,
+        "rise_rate_per_month": 0.5600000000000008,
+        "recession_months": 2.0
+      },
+      {
+        "year": 2019,
+        "pre_month": "2019-05",
+        "pre_level": 54.4,
+        "post_month": "2019-11",
+        "post_level": 31.55,
+        "rise": 22.849999999999998,
+        "response_months": 6,
+        "rise_rate_per_month": 3.808333333333333,
+        "recession_months": null
+      },
+      {
+        "year": 2020,
+        "pre_month": "2020-06",
+        "pre_level": 53.4,
+        "post_month": "2020-10",
+        "post_level": 27.95,
+        "rise": 25.45,
+        "response_months": 4,
+        "rise_rate_per_month": 6.3625,
+        "recession_months": null
+      }
+    ]
+  },
+  "health": {
+    "score": 43.8,
+    "label": "Project-developed indicator (not an official measurement)",
+    "components": {
+      "current_level": 36.7,
+      "long_term_trend": 0.0,
+      "anomaly_frequency": 0.0,
+      "recharge": 100.0,
+      "forecast_condition": 65.3
+    },
+    "weights_used": {
+      "current_level": 0.25,
+      "long_term_trend": 0.2,
+      "anomaly_frequency": 0.1,
+      "recharge": 0.15,
+      "forecast_condition": 0.3
+    },
+    "points_contributed": {
+      "current_level": 9.2,
+      "long_term_trend": 0.0,
+      "anomaly_frequency": 0.0,
+      "recharge": 15.0,
+      "forecast_condition": 19.6
+    },
+    "excluded_components": [
+      "extraction_pressure",
+      "rainfall_condition"
+    ],
+    "trend_m_per_decade": 7.026,
+    "anomaly_rate_last_5y": 0.317
+  },
+  "trend_m_per_decade": 7.026,
+  "explainability": {
+    "model": "XGBoost",
+    "explained_month": "2020-12",
+    "explanation": "For December 2020, the model predicts 30.92 m against an average of 24.44 m. The largest contributions are: level one month ago (+4.81 m); average level over the previous 6 months (+0.65 m); recent variability (6-month std) (+0.57 m).",
+    "latest_contributions": {
+      "lag_1": 4.81,
+      "roll_mean_6": 0.649,
+      "roll_std_6": 0.567,
+      "lag_6": 0.362,
+      "diff_12": -0.306,
+      "diff_1": 0.208,
+      "roll_mean_3": 0.139,
+      "lag_2": -0.071,
+      "month_sin": 0.049,
+      "lag_12": 0.031,
+      "month_cos": 0.026,
+      "lag_3": 0.02
+    },
+    "mean_abs_shap": {
+      "lag_1": 11.3809,
+      "lag_12": 0.6868,
+      "month_sin": 0.4958,
+      "roll_mean_6": 0.3864,
+      "lag_6": 0.3605,
+      "diff_1": 0.2884,
+      "roll_std_6": 0.2518,
+      "diff_12": 0.2323,
+      "lag_3": 0.1686,
+      "roll_mean_3": 0.1672,
+      "month_cos": 0.1166,
+      "lag_2": 0.0959
+    },
+    "permutation_importance_test": {
+      "lag_1": 1.3534,
+      "lag_2": 0.0278,
+      "diff_1": 0.0247,
+      "lag_12": 0.0212,
+      "month_sin": 0.0199,
+      "roll_mean_6": 0.004,
+      "lag_6": 0.0009,
+      "roll_mean_3": 0.0006,
+      "lag_3": -0.0013,
+      "month_cos": -0.0043,
+      "roll_std_6": -0.0058,
+      "diff_12": -0.0203
+    },
+    "partial_dependence": {
+      "lag_1": {
+        "grid": [
+          6.3427999999999995,
+          7.647668965517241,
+          8.952537931034483,
+          10.257406896551725,
+          11.562275862068965,
+          12.867144827586209,
+          14.17201379310345,
+          15.47688275862069,
+          16.781751724137933,
+          18.086620689655174,
+          19.391489655172418,
+          20.696358620689658,
+          22.001227586206898,
+          23.306096551724142,
+          24.610965517241382,
+          25.915834482758626,
+          27.220703448275867,
+          28.525572413793107,
+          29.83044137931035,
+          31.13531034482759,
+          32.44017931034483,
+          33.745048275862075,
+          35.04991724137931,
+          36.354786206896556,
+          37.6596551724138,
+          38.964524137931036,
+          40.26939310344828,
+          41.574262068965524,
+          42.87913103448276,
+          44.184000000000005
+        ],
+        "average_prediction": [
+          9.0250244140625,
+          9.61507511138916,
+          11.465811729431152,
+          12.40627670288086,
+          12.49898910522461,
+          14.042190551757812,
+          15.355051040649414,
+          15.75454330444336,
+          16.93602752685547,
+          17.28386116027832,
+          19.482290267944336,
+          19.482290267944336,
+          22.16054344177246,
+          23.45469093322754,
+          23.45469093322754,
+          25.512052536010742,
+          27.479021072387695,
+          28.72113037109375,
+          29.997310638427734,
+          30.295944213867188,
+          31.37432098388672,
+          32.43867492675781,
+          34.543067932128906,
+          34.583309173583984,
+          35.92630386352539,
+          37.04495620727539,
+          38.94481658935547,
+          39.568233489990234,
+          41.38469696044922,
+          41.77534484863281
+        ]
+      },
+      "lag_12": {
+        "grid": [
+          6.3427999999999995,
+          7.640220689655172,
+          8.937641379310344,
+          10.235062068965517,
+          11.53248275862069,
+          12.829903448275862,
+          14.127324137931033,
+          15.424744827586206,
+          16.72216551724138,
+          18.01958620689655,
+          19.317006896551725,
+          20.614427586206897,
+          21.91184827586207,
+          23.209268965517243,
+          24.506689655172416,
+          25.80411034482759,
+          27.10153103448276,
+          28.398951724137934,
+          29.696372413793107,
+          30.99379310344828,
+          32.29121379310345,
+          33.58863448275862,
+          34.8860551724138,
+          36.18347586206897,
+          37.480896551724136,
+          38.77831724137931,
+          40.07573793103448,
+          41.37315862068966,
+          42.67057931034483,
+          43.968
+        ],
+        "average_prediction": [
+          22.48487091064453,
+          22.780284881591797,
+          22.681089401245117,
+          22.77326011657715,
+          22.777751922607422,
+          22.82023811340332,
+          23.31352996826172,
+          23.402687072753906,
+          23.377126693725586,
+          23.377126693725586,
+          23.377126693725586,
+          23.377126693725586,
+          23.415237426757812,
+          22.953189849853516,
+          24.525278091430664,
+          24.596220016479492,
+          24.599117279052734,
+          24.599117279052734,
+          24.554872512817383,
+          24.59656524658203,
+          24.62188720703125,
+          24.62188720703125,
+          24.63302993774414,
+          24.810392379760742,
+          25.126340866088867,
+          25.07808494567871,
+          25.201570510864258,
+          25.203125,
+          25.590084075927734,
+          25.514759063720703
+        ]
+      },
+      "month_sin": {
+        "grid": [
+          -1.0,
+          -0.8660254037844386,
+          -0.8660254037844384,
+          -0.5000000000000004,
+          -0.4999999999999997,
+          -2.4492935982947064e-16,
+          1.2246467991473532e-16,
+          0.49999999999999994,
+          0.8660254037844386,
+          0.8660254037844387,
+          1.0
+        ],
+        "average_prediction": [
+          23.599191665649414,
+          23.94634437561035,
+          23.94634437561035,
+          24.150394439697266,
+          24.150394439697266,
+          24.548442840576172,
+          24.57820701599121,
+          24.87099838256836,
+          25.13497543334961,
+          25.13497543334961,
+          25.080379486083984
+        ]
+      }
+    }
+  },
+  "scenarios": {
+    "trend_m_per_year": 0.7026120223870232,
+    "share_assumption": 0.5,
+    "labels": {
+      "A": "Current extraction",
+      "B": "10% reduction in extraction",
+      "C": "20% reduction in extraction",
+      "D": "30% reduction in extraction"
+    },
+    "rows": [
+      {
+        "month": "2021-01",
+        "A: Current extraction": 32.253731450611554,
+        "B: 10% reduction in extraction": 32.25080390051827,
+        "C: 20% reduction in extraction": 32.247876350424995,
+        "D: 30% reduction in extraction": 32.24494880033171
+      },
+      {
+        "month": "2021-02",
+        "A: Current extraction": 34.88268835246028,
+        "B: 10% reduction in extraction": 34.87683325227372,
+        "C: 20% reduction in extraction": 34.87097815208716,
+        "D: 30% reduction in extraction": 34.8651230519006
+      },
+      {
+        "month": "2021-03",
+        "A: Current extraction": 37.47996073191439,
+        "B: 10% reduction in extraction": 37.47117808163455,
+        "C: 20% reduction in extraction": 37.462395431354715,
+        "D: 30% reduction in extraction": 37.453612781074874
+      },
+      {
+        "month": "2021-04",
+        "A: Current extraction": 39.34257093434033,
+        "B: 10% reduction in extraction": 39.330860733967214,
+        "C: 20% reduction in extraction": 39.3191505335941,
+        "D: 30% reduction in extraction": 39.30744033322098
+      },
+      {
+        "month": "2021-05",
+        "A: Current extraction": 39.96171104832022,
+        "B: 10% reduction in extraction": 39.94707329785382,
+        "C: 20% reduction in extraction": 39.93243554738743,
+        "D: 30% reduction in extraction": 39.91779779692103
+      },
+      {
+        "month": "2021-06",
+        "A: Current extraction": 39.161690816030855,
+        "B: 10% reduction in extraction": 39.14412551547118,
+        "C: 20% reduction in extraction": 39.12656021491151,
+        "D: 30% reduction in extraction": 39.108994914351825
+      },
+      {
+        "month": "2021-07",
+        "A: Current extraction": 37.14966280458146,
+        "B: 10% reduction in extraction": 37.1291699539285,
+        "C: 20% reduction in extraction": 37.108677103275554,
+        "D: 30% reduction in extraction": 37.0881842526226
+      },
+      {
+        "month": "2021-08",
+        "A: Current extraction": 34.46208445878233,
+        "B: 10% reduction in extraction": 34.438664058036096,
+        "C: 20% reduction in extraction": 34.415243657289864,
+        "D: 30% reduction in extraction": 34.391823256543624
+      },
+      {
+        "month": "2021-09",
+        "A: Current extraction": 31.82172540259251,
+        "B: 10% reduction in extraction": 31.795377451752994,
+        "C: 20% reduction in extraction": 31.769029500913483,
+        "D: 30% reduction in extraction": 31.742681550073968
+      },
+      {
+        "month": "2021-10",
+        "A: Current extraction": 29.94332366440189,
+        "B: 10% reduction in extraction": 29.914048163469097,
+        "C: 20% reduction in extraction": 29.884772662536307,
+        "D: 30% reduction in extraction": 29.855497161603513
+      },
+      {
+        "month": "2021-11",
+        "A: Current extraction": 29.340139220494006,
+        "B: 10% reduction in extraction": 29.307936169467933,
+        "C: 20% reduction in extraction": 29.275733118441863,
+        "D: 30% reduction in extraction": 29.24353006741579
+      },
+      {
+        "month": "2021-12",
+        "A: Current extraction": 30.1837534663318,
+        "B: 10% reduction in extraction": 30.14862286521245,
+        "C: 20% reduction in extraction": 30.1134922640931,
+        "D: 30% reduction in extraction": 30.078361662973748
+      }
+    ]
+  },
+  "recommendations": [
+    {
+      "category": "conservation",
+      "action": "Set a water-conservation target and track progress against the 10\u201330% reduction scenarios.",
+      "evidence": "Under the assumed extraction response, a 20% cut lowers the 12-month level by about 0.07 m."
+    },
+    {
+      "category": "data_quality",
+      "action": "Calibrate or replace the sensor and confirm the monitoring-data records with the agency.",
+      "evidence": "26 month(s) show the same reading repeated for 6 or more months."
+    },
+    {
+      "category": "monitoring",
+      "action": "Keep monthly measurements and re-run the pipeline each time new readings arrive.",
+      "evidence": "The forecast is monthly; longer or more frequent records improve every model."
+    }
+  ],
+  "stations_count": 1518,
+  "run_info": {
+    "seed": 42,
+    "horizon_months": 12,
+    "feature_columns": [
+      "lag_1",
+      "lag_2",
+      "lag_3",
+      "lag_6",
+      "lag_12",
+      "roll_mean_3",
+      "roll_mean_6",
+      "roll_std_6",
+      "diff_1",
+      "diff_12",
+      "month_sin",
+      "month_cos"
+    ]
+  }
+}
