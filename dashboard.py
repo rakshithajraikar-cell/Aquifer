@@ -101,7 +101,7 @@ st.info(
 
 # ----------------------------------------------------------------- sidebar
 with st.sidebar:
-    st.header("What-if simulator")
+    st.header("🚰 What-if simulator")
     st.caption("Assumption-driven: the dataset has no extraction series.")
     share = st.slider("Share of observed deepening caused by extraction", 0.0, 1.0,
                       float(S["scenarios"]["share_assumption"]), 0.05)
@@ -113,8 +113,8 @@ with st.sidebar:
     st.caption(f"Best model: **{S['model_selection']['best_model']}** "
                f"({S['model_selection']['best_configuration']})")
 
-tabs = st.tabs(["Overview", "Forecast", "Risk & Alerts", "What-if Simulator",
-                "Explainable AI", "Recommendations", "Model Comparison", "Map"])
+tabs = st.tabs(["💧 Overview", "🌊 Forecast", "⚠️ Risk & Alerts", "🚰 What-if Simulator",
+                "🔍 Explainable AI", "✅ Recommendations", "📊 Model Comparison", "🗺️ Map"])
 
 # ----------------------------------------------------------------- overview
 with tabs[0]:
