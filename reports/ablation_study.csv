@@ -1,0 +1,5 @@
+Feature set,Features,Val MAE,Test MAE (multi-horizon),Test RMSE (multi-horizon),Test R2 (multi-horizon),Note
+History only (lagged levels),5,5.0542,7.0762,8.9625,0.114,
+History + rolling & change features,10,5.2722,7.6295,9.8262,-0.065,
+History + rolling + seasonal calendar,12,4.8604,7.311,9.2882,0.0484,
+"+ rainfall, temperature, extraction",0,,,,,Not run: these series are not in the dataset
